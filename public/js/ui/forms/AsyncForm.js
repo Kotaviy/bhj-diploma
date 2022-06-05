@@ -13,12 +13,11 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
-    if(element === null || element === undefined) {
-      throw('Element not found');
-    } else {
+    if(!element) {
+      throw new Error('Element not found');
+    }
       this.element = element;
       this.registerEvents();
-    }
   }
 
   /**

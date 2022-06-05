@@ -26,7 +26,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    return localStorage.getItem('user');
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   /**
@@ -35,14 +35,14 @@ class User {
    * */
   static fetch(callback) {
     createRequest({
-      url: this.URL + '/current',
+      url: User.URL + '/current',
       method: 'GET',
       callback: (err, response) => {
         if(response && response.success) {
-          this.setCurrent(response.user)
+          User.setCurrent(response.user)
           App.setState('user-logged');
         } else {
-          this.unsetCurrent();
+          User.unsetCurrent();
         }
       }
     })
@@ -56,13 +56,13 @@ class User {
    * */
   static login(data, callback) {
     createRequest({
-      url: this.URL + '/login',
+      url: User.URL + '/login',
       method: 'POST',
       responseType: 'json',
       data,
       callback: (err, response) => {
         if (response && response.user) {
-          this.setCurrent(response.user);
+          User.setCurrent(response.user);
         }
         callback(err, response);
       }
@@ -77,12 +77,12 @@ class User {
    * */
   static register(data, callback) {
     createRequest({
-      url: this.URL + '/register',
+      url: User.URL + '/register',
       method: 'POST',
       data,
       callback: (err, response) => {
         if(response && response.user) {
-          this.setCurrent(response.user);
+          User.setCurrent(response.user);
         }
         callback(err, response);
       }
@@ -95,12 +95,12 @@ class User {
    * */
   static logout(callback) {
     createRequest({
-      url: this.URL + '/logout',
+      url: User.URL + '/logout',
       method: 'POST',
       callback: (err, response) => {
         if(response && response.success) {
           User.unsetCurrent();
-          location.reload();
+          callback();
         }
       }
     })

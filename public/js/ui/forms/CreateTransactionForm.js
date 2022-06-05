@@ -41,7 +41,7 @@ class CreateTransactionForm extends AsyncForm {
       if(response && response.success) {
         const newIncome = App.getModal(`new${this.type[0].toUpperCase()}${this.type.slice(1)}`);
         newIncome.close();
-        const newIncomeForm = document.querySelector(`#new-${this.type}-form`);
+        const newIncomeForm = this.element;
         newIncomeForm.reset();
         App.update();
       }

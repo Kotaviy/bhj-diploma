@@ -46,8 +46,9 @@ class Sidebar {
     })
     const logoutBtn = document.querySelector('.menu-item_logout');
     logoutBtn.addEventListener('click', () => {
-      User.logout();
-      App.setState('init');
+      User.logout(() => {
+        App.setState('init');
+      });
     })
   }
 }

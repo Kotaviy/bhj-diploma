@@ -13,12 +13,11 @@ class AccountsWidget {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor( element ) {
-    if(element === null || element === undefined) {
+  constructor(element) {
+    if(!element) {
       throw new Error ('Element not found');
     }
     this.element = element;
-    
     this.update();
   }
 
@@ -116,8 +115,9 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data) {
-    data.forEach((elem) => {
-      this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(elem));
-    })
+    const reducedData = data.reduce((acc, elem) => {
+      return acc + this.getAccountHTML(elem);
+    }, '');
+    this.element.insertAdjacentHTML('beforeend', reducedData);
   }
 }

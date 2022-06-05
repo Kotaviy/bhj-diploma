@@ -4,33 +4,19 @@
  * расходов конкретного счёта
  * */
 class TransactionsPage {
-  monthNames = [
-    'январь',
-    'февраль',
-    'март',
-    'апрель',
-    'май',
-    'июнь',
-    'июль',
-    'август',
-    'сентябрь',
-    'октябрь',
-    'ноябрь',
-    'декабрь',
-  ];
+
   /**
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * Сохраняет переданный элемент и регистрирует события
    * через registerEvents()
    * */
-  constructor( element ) {
-    if(element === null || element === undefined) {
-      throw('Element not found');
-    } else {
+  constructor(element) {
+    if(!element) {
+      throw new Error('Element not found');
+    }
       this.element = element;
       this.registerEvents();
-    }
   }
 
   /**
@@ -74,7 +60,7 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    if(this.lastOptions === null || this.lastOptions === undefined) {
+    if(!this.lastOptions) {
       return;
     }
     const result = confirm('Вы действительно хотите удалить этот счёт?');
@@ -113,7 +99,7 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if(options === null || options === undefined) {
+    if(!options) {
       return;
     }
     this.lastOptions = options;
@@ -198,8 +184,9 @@ class TransactionsPage {
   renderTransactions(data) {
     const content = document.querySelector('.content');
     content.innerHTML = '';
-    data.forEach((elem) => {
-      content.insertAdjacentHTML('beforeend', this.getTransactionHTML(elem));
-    })
+    const reducedData = data.reduce((acc, elem) => {
+      return acc + this.getTransactionHTML(elem);
+    }, '')
+    content.insertAdjacentHTML('beforeend', reducedData);
   }
 }

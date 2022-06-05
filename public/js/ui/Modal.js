@@ -12,12 +12,11 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
-    if(element === null || element === undefined) {
-      throw(err);
-    } else {
+    if(!element) {
+      throw new Error('Element not found');
+    }
       this.element = element;
       this.registerEvents();
-    }
   }
 
   /**
